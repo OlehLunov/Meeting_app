@@ -26,7 +26,7 @@ const Login = () => {
   };
 
   const LoginClick = () => {
-    console.log('Увійти');
+    navigate('/Main');
   };
 
   return (
