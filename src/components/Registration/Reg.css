@@ -1,0 +1,38 @@
+.register-container {
+    width: 500px;
+    width: 100%;
+    margin: 250px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #dfcee9;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .register-title {
+    font-size: 24px;
+  }
+  
+  .register-input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .register-btn {
+    padding: 15px 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .login-link {
+    display: block;
+    color: #3498db;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  

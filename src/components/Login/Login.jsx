@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Container, CssBaseline, FormControlLabel, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; 
 import "./Login.css"
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate(); 
 
   const EmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,11 +22,11 @@ const Login = () => {
   };
 
   const RegisterClick = () => {
-    console.log('Регистрация');
+    navigate('/reg');
   };
 
   const LoginClick = () => {
-    console.log('Войти');
+    console.log('Увійти');
   };
 
   return (
@@ -40,7 +42,7 @@ const Login = () => {
           required
           fullWidth
           id="email"
-          label="Почта"
+          label="Пошта"
           name="email"
           autoComplete="email"
           value={email}
@@ -63,7 +65,7 @@ const Login = () => {
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={RememberMeChange} />}
-          label="Запомнить"
+          label="Запам'ятати"
           className='login-checkbox'
         />
         <div className='btn'>
