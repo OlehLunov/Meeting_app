@@ -1,18 +1,19 @@
 import React from 'react';
 import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 
 const Main = () => {
-  const handleInviteClick = () => {
-    // Логика для кнопки "Пригласить человека"
+    const navigate = useNavigate(); 
+
+  const InviteClick = () => {
+
   };
 
-  const handleLogoutClick = () => {
-    // Логика для кнопки "Выйти из аккаунта"
+  const LogoutClick = () => {
+    navigate('/Login');
   };
 
-  const handleScheduleMeetingClick = () => {
-    // Логика для кнопки "Запланировать митинг"
+  const MeetingClick = () => {
   };
 
   return (
@@ -20,28 +21,25 @@ const Main = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Название приложения
+            Wanna meet?
           </Typography>
-          <Button color="inherit" onClick={handleInviteClick}>
-            Пригласить человека
+          <Button color="inherit" onClick={InviteClick}>
+            Запросити учасника
           </Button>
-          <Button color="inherit" onClick={handleLogoutClick}>
-            Выйти
+          <Button color="inherit" onClick={LogoutClick}>
+            Вийти 
           </Button>
         </Toolbar>
       </AppBar>
       <Container>
-        <Typography variant="h4" style={{ textAlign: 'center', marginTop: '30px' }}>
-          Добро пожаловать!
-        </Typography>
         <Button
           variant="contained"
           color="primary"
           size="large"
-          onClick={handleScheduleMeetingClick}
+          onClick={MeetingClick}
           style={{ display: 'block', margin: '50px auto' }}
         >
-          Запланировать митинг
+          Запланувати зустріч
         </Button>
       </Container>
     </Container>
