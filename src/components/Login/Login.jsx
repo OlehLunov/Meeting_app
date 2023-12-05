@@ -1,37 +1,38 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Container, CssBaseline, FormControlLabel, TextField, Typography } from '@mui/material';
+import "./Login.css"
 
-const Login= () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleEmailChange = (e) => {
+  const EmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
+  const PasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleRememberMeChange = () => {
+  const RememberMeChange = () => {
     setRememberMe(!rememberMe);
   };
 
-  const handleRegisterClick = () => {
+  const RegisterClick = () => {
     console.log('Регистрация');
   };
 
-  const handleLoginClick = () => {
+  const LoginClick = () => {
     console.log('Войти');
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div>
-        <Typography component="h1" variant="h5">
-          Название программы
+      <div className='login-container'>
+        <Typography component="h1" variant="h5" className='login-title'>
+          Wanna meet?
         </Typography>
         <TextField
           variant="outlined"
@@ -43,7 +44,8 @@ const Login= () => {
           name="email"
           autoComplete="email"
           value={email}
-          onChange={handleEmailChange}
+          onChange={EmailChange}
+          className='login-input'
         />
         <TextField
           variant="outlined"
@@ -56,18 +58,20 @@ const Login= () => {
           id="password"
           autoComplete="current-password"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={PasswordChange}
+          className='login-input'
         />
         <FormControlLabel
-          control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={handleRememberMeChange} />}
+          control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={RememberMeChange} />}
           label="Запомнить"
+          className='login-checkbox'
         />
-        <div>
-          <Button variant="contained" color="primary" onClick={handleRegisterClick}>
-            Регистрация
+        <div className='btn'>
+          <Button variant="contained" color="primary" onClick={RegisterClick} className='login-button'>
+            Реєстрація
           </Button>
-          <Button variant="contained" color="success" onClick={handleLoginClick}>
-            Войти
+          <Button variant="contained" color="success" onClick={LoginClick} className='login-button'>
+            Увійти
           </Button>
         </div>
       </div>
