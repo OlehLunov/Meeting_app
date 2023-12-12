@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns as Adapter } from '@mui/x-date-pickers/AdapterDateFns';
+import './CreateMeet.css'; 
 
 const CreateMeet = ({ onSubmit }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -26,8 +27,8 @@ const CreateMeet = ({ onSubmit }) => {
 
   return (
     <LocalizationProvider dateAdapter={Adapter}>
-      <Container>
-        <Typography variant="h4" style={{ textAlign: 'center', margin: '20px 0' }}>
+      <Container className="container">
+        <Typography variant="h4" className="heading">
           Запланировать митинг
         </Typography>
         <Grid container spacing={2} alignItems="flex-start">
@@ -37,7 +38,7 @@ const CreateMeet = ({ onSubmit }) => {
               fullWidth
               value={orgName}
               onChange={orgNameChange}
-              style={{ marginBottom: '20px' }}
+              className="textfield"
             />
           </Grid>
           <Grid item xs={6}>
@@ -46,7 +47,7 @@ const CreateMeet = ({ onSubmit }) => {
               value={selectedDate}
               onChange={DateChange}
               renderInput={(params) => <TextField {...params} fullWidth />}
-              style={{ marginBottom: '20px' }}
+              className="textfield"
             />
           </Grid>
         </Grid>
@@ -54,7 +55,7 @@ const CreateMeet = ({ onSubmit }) => {
           variant="contained"
           color="primary"
           onClick={meetSubmit}
-          style={{ display: 'block', margin: '20px auto' }}
+          className="button"
         >
           Подтвердить
         </Button>
