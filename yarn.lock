@@ -9226,7 +9226,7 @@ __metadata:
     dayjs: "npm:^1.11.10"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-redux: "npm:^9.0.1"
+    react-redux: "npm:^9.0.4"
     react-router-dom: "npm:^6.20.1"
     react-scripts: "npm:^5.0.1"
     redux: "npm:^5.0.0"
@@ -11226,31 +11226,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "react-redux@npm:9.0.1"
+"react-redux@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "react-redux@npm:9.0.4"
   dependencies:
     "@types/use-sync-external-store": "npm:^0.0.3"
     use-sync-external-store: "npm:^1.0.0"
   peerDependencies:
-    "@types/react": ^18.2.41
-    "@types/react-dom": ^18.2.17
+    "@types/react": ^18.2.25
     react: ^18.0
-    react-dom: ^18.0
-    react-native: ">=0.71"
+    react-native: ">=0.69"
     redux: ^5.0.0
   peerDependenciesMeta:
     "@types/react":
-      optional: true
-    "@types/react-dom":
-      optional: true
-    react-dom:
       optional: true
     react-native:
       optional: true
     redux:
       optional: true
-  checksum: 0e9d18398746883e1aa85766bb0b41339d51fc9d066876dd6170a3e9c559d91a85dffeb510e20f495a0a939ce33c4d73808f6c145915c041ea00dbfea211ee10
+  checksum: 23af10014b129aeb051de729bde01de21175170b860deefb7ad83483feab5816253f770a4cea93333fc22a53ac9ac699b27f5c3705c388dab53dbcb2906a571a
   languageName: node
   linkType: hard
 

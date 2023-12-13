@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Container, CssBaseline, FormControlLabel, TextField, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; 
-import "./Login.css"
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from '../../Store/Store';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const EmailChange = (e) => {
     setEmail(e.target.value);
@@ -26,14 +30,22 @@ const Login = () => {
   };
 
   const LoginClick = () => {
-    navigate('/Main');
+   
+    dispatch({
+      type: actions.login,
+      payload: { email, password },
+    });
   };
+
+  if (user) {
+    navigate('/Main');
+  }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className='login-container'>
-        <Typography component="h1" variant="h5" className='login-title'>
+      <div className="login-container">
+        <Typography component="h1" variant="h5" className="login-title">
           Wanna meet?
         </Typography>
         <TextField
@@ -47,7 +59,7 @@ const Login = () => {
           autoComplete="email"
           value={email}
           onChange={EmailChange}
-          className='login-input'
+          className="login-input"
         />
         <TextField
           variant="outlined"
@@ -61,18 +73,18 @@ const Login = () => {
           autoComplete="current-password"
           value={password}
           onChange={PasswordChange}
-          className='login-input'
+          className="login-input"
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={RememberMeChange} />}
           label="Запам'ятати"
-          className='login-checkbox'
+          className="login-checkbox"
         />
-        <div className='btn'>
-          <Button variant="contained" color="primary" onClick={RegisterClick} className='login-button'>
+        <div className="btn">
+          <Button variant="contained" color="primary" onClick={RegisterClick} className="login-button">
             Реєстрація
           </Button>
-          <Button variant="contained" color="success" onClick={LoginClick} className='login-button'>
+          <Button variant="contained" color="success" onClick={LoginClick} className="login-button">
             Увійти
           </Button>
         </div>

@@ -1,32 +1,27 @@
 import React, { useState } from 'react';
-import { AppBar, Button, Container, Grid, Paper, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Grid, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from '../../Store/Store';
 import CreateMeet from '../CreateMeet/CreateMeet';
-
-const MeetingCard = ({ meeting, onEdit, onDelete }) => (
-  <Grid item xs={12} md={6} lg={4}>
-    <Paper elevation={3} style={{ padding: '20px', borderRadius: '15px', marginBottom: '20px', cursor: 'pointer' }}>
-      <h2>Данные о совещании:</h2>
-      <p>Дата и время: {meeting.date.toString()}</p>
-      <p>Организатор: {meeting.admin}</p>
-      <Button variant="outlined" color="primary" onClick={() => onEdit(meeting)}>
-        Изменить
-      </Button>
-      <Button variant="outlined" color="secondary" onClick={() => onDelete(meeting)}>
-        Удалить
-      </Button>
-    </Paper>
-  </Grid>
-);
+import MeetingCard from '../MeetingCard/MeetingCard'; 
 
 const Main = () => {
   const navigate = useNavigate();
-  const [meetings, setMeetings] = useState([]);
+  const dispatch = useDispatch();
+  const meetings = useSelector((state) => state.meetings);
+
+  const Edit = (meeting) => {
+    setEditingMeeting(meeting);
+    setShowCreateMeet(true);
+  };
+
   const [showCreateMeet, setShowCreateMeet] = useState(false);
   const [editingMeeting, setEditingMeeting] = useState(null);
 
   const InviteClick = () => {};
   const LogoutClick = () => {
+    dispatch({ type: actions.logout });
     navigate('/Login');
   };
 
@@ -40,23 +35,17 @@ const Main = () => {
       const updatedMeetings = meetings.map((meeting) =>
         meeting === editingMeeting ? meetInfo : meeting
       );
-      setMeetings(updatedMeetings);
+      dispatch({ type: actions.updateMeeting, payload: updatedMeetings });
       setEditingMeeting(null);
     } else {
-
-      setMeetings([...meetings, meetInfo]);
+      dispatch({ type: actions.addMeeting, payload: meetInfo });
     }
     setShowCreateMeet(false);
   };
 
-  const handleEdit = (meeting) => {
-    setEditingMeeting(meeting);
-    setShowCreateMeet(true);
-  };
-
-  const handleDelete = (meeting) => {
-    const updatedMeetings = meetings.filter((m) => m !== meeting);
-    setMeetings(updatedMeetings);
+  const Delete = (meeting) => {
+    const updatedMeetings = meetings.filter((m) => m.id !== meeting.id);
+    dispatch({ type: actions.updateMeeting, payload: updatedMeetings });
   };
 
   return (
@@ -90,8 +79,8 @@ const Main = () => {
             <MeetingCard
               key={index}
               meeting={meeting}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
+              onEdit={Edit}
+              onDelete={Delete}
             />
           ))}
         </Grid>

@@ -1,13 +1,15 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns as Adapter } from '@mui/x-date-pickers/AdapterDateFns';
-import './CreateMeet.css'; 
+import { useDispatch } from 'react-redux';
+import { actions } from '../../Store/Store';
+import './CreateMeet.css';
 
-const CreateMeet = ({ onSubmit }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [orgName, setOrgName] = useState('');
+const CreateMeet = ({ onSubmit, editingMeeting }) => {
+  const dispatch = useDispatch();
+  const [selectedDate, setSelectedDate] = useState(editingMeeting ? editingMeeting.date : new Date());
+  const [orgName, setOrgName] = useState(editingMeeting ? editingMeeting.admin : '');
 
   const DateChange = (date) => {
     setSelectedDate(date);
@@ -22,6 +24,14 @@ const CreateMeet = ({ onSubmit }) => {
       date: selectedDate,
       admin: orgName,
     };
+    if (editingMeeting) {
+     
+      const updatedMeeting = { ...editingMeeting, ...meetInfo };
+      dispatch({ type: actions.updateMeeting, payload: updatedMeeting });
+    } else {
+    
+      dispatch({ type: actions.addMeeting, payload: meetInfo });
+    }
     onSubmit(meetInfo);
   };
 
@@ -29,7 +39,7 @@ const CreateMeet = ({ onSubmit }) => {
     <LocalizationProvider dateAdapter={Adapter}>
       <Container className="container">
         <Typography variant="h4" className="heading">
-          Запланировать митинг
+          {editingMeeting ? 'Редактировать встречу' : 'Запланировать митинг'}
         </Typography>
         <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={6}>
@@ -57,7 +67,7 @@ const CreateMeet = ({ onSubmit }) => {
           onClick={meetSubmit}
           className="button"
         >
-          Подтвердить
+          {editingMeeting ? 'Сохранить изменения' : 'Подтвердить'}
         </Button>
       </Container>
     </LocalizationProvider>
