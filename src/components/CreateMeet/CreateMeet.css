@@ -4,6 +4,7 @@
     align-items: center;
     gap: 30px;
     margin-bottom: 50px;
+    position: relative;
   }
   
   .heading {
@@ -19,5 +20,5 @@
   .button{
     position: absolute;
     left: 45%;
-    top: 44%;
+    top: 100%;
   }

@@ -16,5 +16,4 @@ const MeetingCard = ({ meeting, onEdit, onDelete }) => (
     </Paper>
   </Grid>
 );
-
 export default MeetingCard;

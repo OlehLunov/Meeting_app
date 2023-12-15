@@ -20,7 +20,7 @@ const meetingsReducer = (state = [], action) => {
       );
 
     case actions.deleteMeeting:
-      return state.filter((meeting) => meeting !== action.payload);
+      return state.filter((meeting) => meeting.id !== action.payload); 
 
     default:
       return state;

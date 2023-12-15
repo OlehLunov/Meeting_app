@@ -21,6 +21,8 @@ const Main = () => {
   const [editingMeeting, setEditingMeeting] = useState(null);
 
   const InviteClick = () => {};
+
+
   const LogoutClick = () => {
     dispatch({ type: actions.logout });
     navigate('/Login');
@@ -45,14 +47,14 @@ const Main = () => {
 
   const Delete = (meeting) => {
     setShowCreateMeet(false);
-    const updatedMeetings = meetings.filter((m) => m.id !== meeting.id);
-    dispatch({ type: actions.updateMeeting, payload: updatedMeetings });
+    dispatch({ type: actions.deleteMeeting, payload: meeting.id });
   };
   
   
   
 
   return (
+
     <Container>
       <AppBar position="static">
         <Toolbar>
