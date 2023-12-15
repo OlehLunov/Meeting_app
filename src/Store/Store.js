@@ -71,7 +71,6 @@ const createMeeting = (dispatch, actions, meetings, meetInfo) => {
 
 
 
-
 const store = createStore(
   combineReducers({
     meetings: meetingsReducer,

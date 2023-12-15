@@ -12,6 +12,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState(false);
+
 
   const EmailChange = (e) => {
     setEmail(e.target.value);
@@ -31,7 +33,7 @@ const Login = () => {
 
   const LoginClick = () => {
    
-    dispatch({
+      dispatch({
       type: actions.login,
       payload: { email, password },
     });
@@ -41,6 +43,7 @@ const Login = () => {
     navigate('/Main');
   }
 
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -88,6 +91,12 @@ const Login = () => {
             Увійти
           </Button>
         </div>
+        {loginError && (
+        <Typography color="error" variant="body2" className="login-error">
+          Помилка входу. Перейдіть на сторінку реєстрації.
+        </Typography>
+      )}
+
       </div>
     </Container>
   );

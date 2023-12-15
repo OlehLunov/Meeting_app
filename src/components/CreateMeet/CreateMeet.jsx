@@ -24,6 +24,7 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
     const meetInfo = {
       date: selectedDate,
       admin: orgName,
+      // author: userID,
     };
     if (editingMeeting) {
       const updatedMeeting = { ...editingMeeting, ...meetInfo };
