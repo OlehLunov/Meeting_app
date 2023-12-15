@@ -1,14 +1,15 @@
+// Ваш файл с компонентом CreateMeet.js
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns as Adapter } from '@mui/x-date-pickers/AdapterDateFns';
-import { useDispatch } from 'react-redux';
 import { actions } from '../../Store/Store';
-import './CreateMeet.css';
 
 const CreateMeet = ({ onSubmit, editingMeeting }) => {
+  const meetings = useSelector((state) => state.meetings);
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState(editingMeeting ? editingMeeting.date : new Date());
+  const [selectedDate, setSelectedDate] = useState(editingMeeting ? new Date(editingMeeting.date) : new Date());
   const [orgName, setOrgName] = useState(editingMeeting ? editingMeeting.admin : '');
 
   const DateChange = (date) => {
@@ -25,12 +26,10 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
       admin: orgName,
     };
     if (editingMeeting) {
-     
       const updatedMeeting = { ...editingMeeting, ...meetInfo };
       dispatch({ type: actions.updateMeeting, payload: updatedMeeting });
     } else {
-    
-      dispatch({ type: actions.addMeeting, payload: meetInfo });
+      // Здесь нет вызова createMeeting, так как это уже делается в компоненте Main
     }
     onSubmit(meetInfo);
   };
@@ -39,12 +38,12 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
     <LocalizationProvider dateAdapter={Adapter}>
       <Container className="container">
         <Typography variant="h4" className="heading">
-          {editingMeeting ? 'Редактировать встречу' : 'Запланировать митинг'}
+          {editingMeeting ? 'Редагувати' : 'Запланувати міт'}
         </Typography>
         <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={6}>
             <TextField
-              label="Организатор (инициалы)"
+              label="Адміністратор"
               fullWidth
               value={orgName}
               onChange={orgNameChange}
@@ -53,7 +52,7 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
           </Grid>
           <Grid item xs={6}>
             <DesktopDateTimePicker
-              label="Выберите дату и время"
+              label="Виберіть дату та час"
               value={selectedDate}
               onChange={DateChange}
               renderInput={(params) => <TextField {...params} fullWidth />}
@@ -61,13 +60,8 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
             />
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={meetSubmit}
-          className="button"
-        >
-          {editingMeeting ? 'Сохранить изменения' : 'Подтвердить'}
+        <Button variant="contained" color="primary" onClick={meetSubmit} className="button">
+          {editingMeeting ? 'Зберегти' : 'Підтвердити'}
         </Button>
       </Container>
     </LocalizationProvider>

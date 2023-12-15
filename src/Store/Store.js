@@ -20,7 +20,7 @@ const meetingsReducer = (state = [], action) => {
       );
 
     case actions.deleteMeeting:
-      return state.filter((meeting) => meeting.id !== action.payload);
+      return state.filter((meeting) => meeting !== action.payload);
 
     default:
       return state;
@@ -59,6 +59,19 @@ const userReducer = (state = null, action) => {
   }
 };
 
+const createMeeting = (dispatch, actions, meetings, meetInfo) => {
+  const isDuplicate = meetings.some(
+    (meeting) => meeting.admin === meetInfo.admin && meeting.date === meetInfo.date
+  );
+
+  if (!isDuplicate) {
+    dispatch({ type: actions.addMeeting, payload: { ...meetInfo, id: new Date().getTime() } });
+  }
+};
+
+
+
+
 const store = createStore(
   combineReducers({
     meetings: meetingsReducer,
@@ -67,4 +80,4 @@ const store = createStore(
   })
 );
 
-export { store, actions };
+export { store, actions, createMeeting };

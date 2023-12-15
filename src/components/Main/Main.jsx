@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../Store/Store';
 import CreateMeet from '../CreateMeet/CreateMeet';
 import MeetingCard from '../MeetingCard/MeetingCard'; 
+import { createMeeting } from '../../Store/Store';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -30,23 +31,26 @@ const Main = () => {
   };
 
   const MeetingSubmit = (meetInfo) => {
-    console.log("Done", meetInfo);
     if (editingMeeting) {
       const updatedMeetings = meetings.map((meeting) =>
-        meeting === editingMeeting ? meetInfo : meeting
+        meeting.id === editingMeeting.id ? meetInfo : meeting
       );
       dispatch({ type: actions.updateMeeting, payload: updatedMeetings });
       setEditingMeeting(null);
     } else {
-      dispatch({ type: actions.addMeeting, payload: meetInfo });
+      createMeeting(dispatch, actions, meetings, meetInfo);
     }
     setShowCreateMeet(false);
   };
 
   const Delete = (meeting) => {
+    setShowCreateMeet(false);
     const updatedMeetings = meetings.filter((m) => m.id !== meeting.id);
     dispatch({ type: actions.updateMeeting, payload: updatedMeetings });
   };
+  
+  
+  
 
   return (
     <Container>
@@ -73,7 +77,9 @@ const Main = () => {
         >
           Запланувати зустріч
         </Button>
+        
         {showCreateMeet && <CreateMeet onSubmit={MeetingSubmit} editingMeeting={editingMeeting} />}
+        
         <Grid container spacing={2}>
           {meetings.map((meeting, index) => (
             <MeetingCard
