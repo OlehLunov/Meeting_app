@@ -51,8 +51,6 @@ const Main = () => {
   };
   
   
-  
-
   return (
 
     <Container>

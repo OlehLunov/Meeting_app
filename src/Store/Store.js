@@ -59,16 +59,29 @@ const userReducer = (state = null, action) => {
   }
 };
 
-const createMeeting = (dispatch, actions, meetings, meetInfo) => {
-  const isDuplicate = meetings.some(
+const createMeeting = (dispatch, actions, meetings, meetInfo, userEmail) => {
+  const isDuplicate = (meetings[userEmail] || []).some(
     (meeting) => meeting.admin === meetInfo.admin && meeting.date === meetInfo.date
   );
 
   if (!isDuplicate) {
-    dispatch({ type: actions.addMeeting, payload: { ...meetInfo, id: new Date().getTime() } });
+    dispatch({
+      type: actions.addMeeting,
+      payload: { userEmail, meetInfo: { ...meetInfo, id: new Date().getTime() } },
+    });
   }
 };
 
+const initializeStateFromLocalStorage = () => {
+  const storedMeetings = JSON.parse(localStorage.getItem('meetings')) || {};
+  const storedUser = JSON.parse(localStorage.getItem('user')) || null;
+
+  return {
+    meetings: storedMeetings,
+    participants: [],
+    user: storedUser,
+  };
+};
 
 
 const store = createStore(
@@ -76,7 +89,14 @@ const store = createStore(
     meetings: meetingsReducer,
     participants: participantsReducer,
     user: userReducer,
-  })
+  }),
+  initializeStateFromLocalStorage()
 );
+
+store.subscribe(() => {
+  const { meetings, user } = store.getState();
+  localStorage.setItem('meetings', JSON.stringify(meetings));
+  localStorage.setItem('user', JSON.stringify(user));
+});
 
 export { store, actions, createMeeting };

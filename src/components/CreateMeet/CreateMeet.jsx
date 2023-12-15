@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/x-date-pickers';
@@ -9,8 +9,14 @@ import "./CreateMeet.css"
 const CreateMeet = ({ onSubmit, editingMeeting }) => {
   const meetings = useSelector((state) => state.meetings);
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState(editingMeeting ? new Date(editingMeeting.date) : new Date());
-  const [orgName, setOrgName] = useState(editingMeeting ? editingMeeting.admin : '');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [orgName, setOrgName] = useState('');
+  const [storedMeetings, setStoredMeetings] = useState([]);
+
+  useEffect(() => {
+    const storedMeetings = JSON.parse(localStorage.getItem('storedMeetings')) || [];
+    setStoredMeetings(storedMeetings);
+  }, []);
 
   const DateChange = (date) => {
     setSelectedDate(date);
@@ -24,12 +30,11 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
     const meetInfo = {
       date: selectedDate,
       admin: orgName,
-      // author: userID,
     };
-    if (editingMeeting) {
-      const updatedMeeting = { ...editingMeeting, ...meetInfo };
-      dispatch({ type: actions.updateMeeting, payload: updatedMeeting });
-    } 
+    const updatedMeetings = [...storedMeetings, meetInfo];
+    setStoredMeetings(updatedMeetings);
+    localStorage.setItem('storedMeetings', JSON.stringify(updatedMeetings));
+
     onSubmit(meetInfo);
   };
 
@@ -37,7 +42,7 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
     <LocalizationProvider dateAdapter={Adapter}>
       <Container className="container">
         <Typography variant="h4" className="heading">
-          {editingMeeting ? 'Редагувати' : 'Запланувати міт'}
+          {'Запланувати міт'}
         </Typography>
         <Grid container spacing={5} alignItems={"center"}>
           <Grid item xs={6}>
@@ -60,7 +65,7 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
           </Grid>
         </Grid>
         <Button variant="contained" color="primary" onClick={meetSubmit} className="button">
-          {editingMeeting ? 'Зберегти' : 'Підтвердити'}
+          {'Підтвердити'}
         </Button>
       </Container>
     </LocalizationProvider>
