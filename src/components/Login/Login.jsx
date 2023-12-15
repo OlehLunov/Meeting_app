@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Container, CssBaseline, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../Store/Store';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +10,8 @@ const Login = () => {
   const user = useSelector((state) => state.user);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState(false);
-
 
   const EmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,27 +21,41 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const RememberMeChange = () => {
-    setRememberMe(!rememberMe);
-  };
-
   const RegisterClick = () => {
     navigate('/reg');
   };
 
-  const LoginClick = () => {
-   
-      dispatch({
-      type: actions.login,
-      payload: { email, password },
-    });
+  const LoginClick = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const responseBody = await response.text();
+  
+      if (response.ok) {
+        dispatch({
+          type: actions.login,
+          payload: { email, password }, 
+        });
+        navigate('/Main');
+      } else {
+        setLoginError(true);
+      }
+    } catch (error) {
+      console.error('Error during login:', error.message);
+      setLoginError(true);
+    }
   };
 
   if (user) {
     navigate('/Main');
   }
 
-  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -78,11 +90,6 @@ const Login = () => {
           onChange={PasswordChange}
           className="login-input"
         />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={RememberMeChange} />}
-          label="Запам'ятати"
-          className="login-checkbox"
-        />
         <div className="btn">
           <Button variant="contained" color="primary" onClick={RegisterClick} className="login-button">
             Реєстрація
@@ -92,11 +99,10 @@ const Login = () => {
           </Button>
         </div>
         {loginError && (
-        <Typography color="error" variant="body2" className="login-error">
-          Помилка входу. Перейдіть на сторінку реєстрації.
-        </Typography>
-      )}
-
+          <Typography color="error" variant="body2" className="login-error">
+            Помилка входу. Перейдіть на сторінку реєстрації.
+          </Typography>
+        )}
       </div>
     </Container>
   );

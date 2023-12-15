@@ -33,7 +33,7 @@ const Reg = () => {
     if (!email || !password) {
       console.log('Email or password is empty');
       setEmailError(!email);
-      setPasswordError(!password);
+      setPassError(!password);
       return;
     }
   

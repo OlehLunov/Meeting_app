@@ -43,14 +43,15 @@ app.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      res.status(200).send('Login successful.');
+      res.status(200).json({ message: 'Login successful.', user });
     } else {
-      res.status(401).send('Invalid credentials.');
+      res.status(401).json({ message: 'Invalid credentials.' });
     }
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).json({ message: error.message });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
