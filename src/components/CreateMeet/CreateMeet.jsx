@@ -31,6 +31,12 @@ const CreateMeet = ({ onSubmit, editingMeeting }) => {
       date: selectedDate,
       admin: orgName,
     };
+
+    const Edit = (meeting) => {
+      setEditingMeeting(meeting);
+      setShowCreateMeet(true);
+    };
+    
     const updatedMeetings = [...storedMeetings, meetInfo];
     setStoredMeetings(updatedMeetings);
     localStorage.setItem('storedMeetings', JSON.stringify(updatedMeetings));

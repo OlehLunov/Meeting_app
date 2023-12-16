@@ -11,6 +11,7 @@ const Main = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const meetings = useSelector((state) => state.meetings);
+  const currentUser = useSelector((state) => state.user);
 
   const Edit = (meeting) => {
     setEditingMeeting(meeting);
@@ -21,7 +22,6 @@ const Main = () => {
   const [editingMeeting, setEditingMeeting] = useState(null);
 
   const InviteClick = () => {};
-
 
   const LogoutClick = () => {
     dispatch({ type: actions.logout });
@@ -50,14 +50,12 @@ const Main = () => {
     dispatch({ type: actions.deleteMeeting, payload: meeting.id });
   };
   
-  
   return (
-
     <Container>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Wanna meet?
+            Wanna meet? - {currentUser && currentUser.email}
           </Typography>
           <Button color="inherit" onClick={InviteClick}>
             Запросити учасника
